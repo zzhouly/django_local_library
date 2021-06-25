@@ -82,7 +82,6 @@ class AllLoanedBooksListView(PermissionRequiredMixin, generic.ListView):
 
 
 import datetime
-
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -129,30 +128,36 @@ from django.urls import reverse_lazy
 
 from catalog.models import Author
 
-class AuthorCreate(CreateView):
+class AuthorCreate(PermissionRequiredMinxin, CreateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
     # initial = {'date_of_death': '11/06/2020'}
+    permission_required = 'catalog.can_mark_returned'
 
-class AuthorUpdate(UpdateView):
+class AuthorUpdate(PermissionRequiredMinxin, UpdateView):
     model = Author
     fields = '__all__' # Not recommended (potential security issue if more fields added)
+    permission_required = 'catalog.can_mark_returned'
 
-class AuthorDelete(DeleteView):
+class AuthorDelete(PermissionRequiredMinxin, DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+    permission_required = 'catalog.can_mark_returned'
 
-class BookCreate(CreateView):
+class BookCreate(PermissionRequiredMinxin, CreateView):
     model = Book
     fields = '__all__'
+    permission_required = 'catalog.can_mark_returned'
 
-class BookUpdate(UpdateView):
+class BookUpdate(PermissionRequiredMinxin, UpdateView):
     model = Book 
     fields = '__all__'
+    permission_required = 'catalog.can_mark_returned'
 
-class BookDelete(DeleteView):
+class BookDelete(PermissionRequiredMinxin, DeleteView):
     model = Book 
     success_url = reverse_lazy('books')
+    permission_required = 'catalog.can_mark_returned'
 
 
 
